@@ -1,0 +1,55 @@
+simple-CTF
+|
+-do tha nmap
+|
+-3 port open 21 80 2222
+|
+-anonymous user allowed in ftp and you get a file ForMitch.txt download that
+|
+-nothing much in it just telling weak password and ded end
+|
+-website on port 80 seems liek a ded end
+|
+-but sike run gobuster and you find /simple with simple cms running
+note:for gobuster its recommded to use seclists but in this case you can also use the default wordlists such as the dirb and dirbuster ones
+|
+-it will give you the version scroll down to bottom of page
+-google that you will get cve-2019-9053
+|
+-search that and you will get a exploit on exploitdb 46635 
+note: it is in python2 and it is deprecated now open the file in a text editor and change the code to python3(just add parenthesis to print statements)
+|
+-run that and give the url as http://targetip/simple
+|
+-it will take loong time but will give you some info as below
+[+] Salt for password found: 1dac0d92e9fa6bb2
+[+] Username found: mitch
+[+] Email found: admin@admin.com
+[+] Password found: 0c01f4468bd75d7a84c7eb73846e8d96
+|
+-use the password hash and salt to crach using hashcat liek this
+-hashcat -O -a 0 -m 20 0c01f4468bd75d7a84c7eb73846e8d96:1dac0d92e9fa6bb2 /usr/share/wordlists/rockyou.txt 
+|
+-after a short while it will give you the password as secret
+note: if you run out of the default 1 hour of machine time for free account reload the page
+and check if your machine is terminated or not. restart if its terminated
+|
+-login to the machine using ssh using mitch as username and secret as password
+note: make sure the port is 2222
+|
+-after logging in you will get a basic sh shell you can upgrade using /bin/bash or pty.spawn() method
+|
+-cat the file user.txt in home directory
+-you will get the user flag: G00d j0b, keep up!
+|
+-check for other users in the /home directory sunbath will be the other user
+|
+-do sudo -l 
+-you can see you can execute vim as root
+|
+-vim has a feature that you can execute commands from within using the ! prefix in command mode
+-spawn a full fledged reverse shell if you want to snoop around
+-but here we only want the root flag in /root/root.txt
+-do !cat/root/root.txt in command mode in vim
+|
+- you will get the root flag as: W3ll d0n3. You made it!
