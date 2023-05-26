@@ -1,0 +1,55 @@
+Agent-Sudo
+|
+-do tha nmap you get 3 ports 21 22 80
+|
+-nothing on 21 and no anonymous login also
+|
+-port 80 says you use change the user-agent to a "codename" sus
+|
+-use burpsuite to change the user-agent or raw dog it using curl
+-its given agent R but using that as user-agent it says fuk off
+-try from A,B,C you get something in C
+|
+-it says yer username is chris password is weak so try to brute force ssh and ftp using hydra
+spoiler:ssh will be time waste but do it anyway
+|
+-you get password as crystal for user chris
+|
+-ftp into it using that and you get 3 files cute-alien.jpg cutie.png To_agentJ.txt 
+-the txt file says the picture files are sus so run steghide and exiftool on them
+-exiftool filename or steghide extract -sf filename
+|
+-exiftool doesnt give shit but steghide asks for password sus
+|
+-run binwalk or foremost you get a zip file inside cutie.png
+|
+-sike zip file encrypted 
+-use zip2john to extract hash into a file and crack it using john itself using rockyou.txt
+|
+-you get password as alien
+|
+-unzip it and there is a file message.txt 
+-it has some string in it which seems encrypted "QXJlYTUx"
+-but it just encoded in base 64 so decode it online or using base64 -d
+|
+-the string decodes to Area51
+|
+-use that as the password for extracting message from cute-alien.jpg
+-cat the file and the password is hackerrules!
+|
+-use that to ssh into machine as user chris and password hackerrules!
+|
+-cat the user.txt for the user flag
+|
+-sudo -l for all the possible suid binaries
+|
+-you get (ALL, !root) /bin/bash sus
+|
+-do sudo -V it says version is 1.8.21p2
+|
+-googling for exploits for this gives us a exploit CVE-2019-14287
+|
+-using exploit db you get payload sudo -u#-1 /bin/bash
+-use it to get root shell
+|
+-cat /root/root.txt for the root flag
